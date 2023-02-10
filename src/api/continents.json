@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "clave": "AF",
+    "nombre": "Africa"
+  },
+  {
+    "id": 2,
+    "clave": "AN",
+    "nombre": "Antarctica"
+  },
+  {
+    "id": 3,
+    "clave": "AS",
+    "nombre": "Asia"
+  },
+  {
+    "id": 4,
+    "clave": "EU",
+    "nombre": "Europe"
+  },
+  {
+    "id": 5,
+    "clave": "NA",
+    "nombre": "North America"
+  },
+  {
+    "id": 6,
+    "clave": "OC",
+    "nombre": "Oceania"
+  },
+  {
+    "id": 7,
+    "clave": "SA",
+    "nombre": "South America"
+  }
+]

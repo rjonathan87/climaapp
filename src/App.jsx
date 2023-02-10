@@ -1,8 +1,9 @@
+import AppClima from "./components/AppClima"
 
 function App() {
 
   return (
-    <div>Hello world</div>
+    <AppClima />
   )
 }
 
