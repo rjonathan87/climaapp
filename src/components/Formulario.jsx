@@ -1,76 +1,60 @@
 import { useEffect, useState } from 'react'
-import countriesJS from '../api/countries.json'
-import statesJS from '../api/states.json'
-import citiesJS from '../api/cities.json'
+import countriesJS from '../api/paises.json'
+import useClima from '../hooks/useClima'
 
 const Formulario = () => {
-
-  const [countrie, setCountrie] = useState('')
-  const [estado, setEstado] = useState('')
-  const [ciudad, setCiudad] = useState('')
-  const [estados, setEstados] = useState([])
-  const [cities, setCities] = useState([])
+  const [alerta, setAlerta] = useState('')
+  const { busqueda, datosBusqueda, consultarClima } = useClima()
+  const { ciudad, pais } = busqueda 
   
-  const handleCountrie = e => setCountrie(e.target.value)
-  const handleState = e => setEstado(e.target.value)
+  const handleSubmit = e => {
+    e.preventDefault()
 
-  useEffect(() => {
-    if(countrie !== ''){
-      setEstados( statesJS.states.filter( state => state.id_country === +countrie ) )
+    if(Object.values(busqueda).includes(''))
+    {
+      setAlerta('Todos los campos son obligatorios')
+      return 
     }
-  }, [countrie])
-
-  useEffect(() => {
-    if(estado){
-      setCities( citiesJS?.cities.filter( citjs => citjs.id_state === +estado ) )
-    }
-  }, [estado])
-  
-  
+    setAlerta('');
+    consultarClima(busqueda)
+  }
 
   return (
     <>
       <div className="contenedor">
-        <form>
+        { alerta && <p>{alerta}</p>}
+        <form
+          onSubmit={handleSubmit}
+        >
+          <div className="campo">
+            <label htmlFor="ciudad">Ciudad</label>
+            <input 
+              type="text" 
+              name="ciudad" 
+              id="ciudad" 
+              onChange={datosBusqueda}
+              value={ciudad}
+            />
+          </div>
           <div className="campo">
             <label htmlFor="pais">País</label>
             <select 
-              name="pais" id="pais"
-              value={countrie}
-              onChange={ e => handleCountrie(e) }
+              name="pais" 
+              id="pais"
+              onChange={datosBusqueda}
+              value={pais}
             >
               <option value="">-- Selecciona un País --</option>
-                {countriesJS.countries?.map( countrie => (
-                  <option key={countrie.id} value={countrie.id}>{countrie.name}</option>
-                ))}
+              <option value='US'>Estados Unidos</option>
+              <option value='MX'>México</option>
+              <option value='AR'>Argentina</option>
+              <option value='CO'>Colombia</option>
+              <option value='CR'>Costa Rica</option>
+              <option value='ES'>España</option>
+              <option value='PE'>Perú</option>
             </select>
           </div>
-          <div className="campo">
-            <label htmlFor="estado">Entidad Federativa</label>
-            <select 
-              name="estado" id="estado"
-              value={estado}
-              onChange={ e => handleState(e) }
-            >
-              <option value="">-- Selecciona una Entidad Federativa --</option>
-                {estados?.map( estado => (
-                  <option key={estado.id} value={estado.id}>{estado.name}</option>
-                ))}
-            </select>
-          </div>
-          <div className="campo">
-            <label htmlFor="ciudad">Ciudad</label>
-            <select 
-              name="ciudad" id="ciudad"
-              value={ciudad}
-              onChange={ e => handleState(e) }
-            >
-              <option value="">-- Selecciona una Entidad Federativa --</option>
-                {cities.map( citie => (
-                  <option key={citie.id} value={citie.id}>{citie.name}</option>
-                ))}
-            </select>
-          </div>
+          <input type="submit" value="Consultar Climab" />
         </form>
       </div>
     </>
